@@ -49,7 +49,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         background = (ImageView) mLayout.findViewById(R.id.background);
 
         String coverPath = coverString + list.get(0).getCoverURL().getString("cloudinary_id")+ ".png";
-        Glide.with(mContext).load(coverString2 + list.get(0).getCoverURL().getString("cloudinary_id")+ ".png").into(background);
+        Picasso.with(mContext).load(coverString2 + list.get(0).getCoverURL().getString("cloudinary_id")+ ".png").noPlaceholder().centerCrop().fit().into(background);
     }
 
 
@@ -89,7 +89,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     public void pageChanged(int position) throws JSONException {
 
         String coverPath = coverString2 + list.get(position).getCoverURL().getString("cloudinary_id")+ ".png";
-        Glide.with(mContext).load(coverPath).into(background);
+        Picasso.with(mContext).load(coverPath).noPlaceholder().centerCrop().fit().into(background);
     }
 
 
