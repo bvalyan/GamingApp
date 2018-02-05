@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.MultiTransformation;
@@ -63,6 +64,14 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         final View view;
 
         view = mLayoutInflater.inflate(R.layout.game_page_layout, container, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(mContext, list.get(position).getName() + " clicked!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
         TextView heroNameView = (TextView) view.findViewById(R.id.game_name);
         ImageView heroImageView = (ImageView) view.findViewById(R.id.game_cover);
         heroNameView.setText(list.get(position).getName());
@@ -91,6 +100,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         String coverPath = coverString2 + list.get(position).getCoverURL().getString("cloudinary_id")+ ".png";
         Picasso.with(mContext).load(coverPath).noPlaceholder().centerCrop().fit().into(background);
     }
+
 
 
 
