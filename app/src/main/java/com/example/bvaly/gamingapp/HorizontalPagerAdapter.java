@@ -34,10 +34,11 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     private LayoutInflater mLayoutInflater;
     private HashMap<String,GameData> mData;
     private ArrayList<GameData> list;
+    String coverString = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
+    String coverString2 = "https://images.igdb.com/igdb/image/upload/t_1080p/";
     View mLayout;
     final ImageView background;
     MultiTransformation multi = new MultiTransformation(
-            new BlurTransformation(25),
             new VignetteFilterTransformation());
 
     public HorizontalPagerAdapter(final Context context, ArrayList<GameData> data, View mainLayout) throws JSONException {
@@ -46,7 +47,9 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         mLayoutInflater = LayoutInflater.from(context);
         list = data;
         background = (ImageView) mLayout.findViewById(R.id.background);
-        Glide.with(mContext).load("https:" + list.get(0).getCoverURL().getString("url")).apply(RequestOptions.bitmapTransform(multi)).into(background);
+
+        String coverPath = coverString + list.get(0).getCoverURL().getString("cloudinary_id")+ ".png";
+        Glide.with(mContext).load(coverString2 + list.get(0).getCoverURL().getString("cloudinary_id")+ ".png").into(background);
     }
 
 
@@ -63,12 +66,14 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         TextView heroNameView = (TextView) view.findViewById(R.id.game_name);
         ImageView heroImageView = (ImageView) view.findViewById(R.id.game_cover);
         heroNameView.setText(list.get(position).getName());
-        heroNameView.setVisibility(View.VISIBLE);
+        String coverPath = null;
         try {
-            Picasso.with(mContext).load("https:" + list.get(position).getCoverURL().getString("url")).into(heroImageView);
+            coverPath = coverString + list.get(position).getCoverURL().getString("cloudinary_id")+ ".png";
+            Glide.with(mContext).load(coverPath).apply(RequestOptions.bitmapTransform(multi)).into(heroImageView);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        heroNameView.setVisibility(View.VISIBLE);
         container.addView(view);
         return view;
     }
@@ -83,8 +88,8 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     }
     public void pageChanged(int position) throws JSONException {
 
-
-        Glide.with(mContext).load("https:" + list.get(position).getCoverURL().getString("url")).apply(RequestOptions.bitmapTransform(multi)).into(background);
+        String coverPath = coverString2 + list.get(position).getCoverURL().getString("cloudinary_id")+ ".png";
+        Glide.with(mContext).load(coverPath).into(background);
     }
 
 
